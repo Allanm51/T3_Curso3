@@ -13,8 +13,6 @@ public class LeitorDeArquivosJson<T>: ILeitorDeArquivos<T>
     public IEnumerable<T> RealizaLeitura()
     {
         using var stream = new FileStream(caminhoArquivo, FileMode.Open, FileAccess.Read);
-        var jsonOptions = new JsonSerializerOptions();
-        jsonOptions.PropertyNameCaseInsensitive = true;
-        return JsonSerializer.Deserialize<IEnumerable<T>>(stream, jsonOptions) ??Enumerable.Empty<T>();
+        return JsonSerializer.Deserialize<IEnumerable<T>>(stream)??Enumerable.Empty<T>();
     }
 }
