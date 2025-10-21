@@ -3,6 +3,7 @@ using Alura.Adopet.Console.Atributos;
 using Alura.Adopet.Console.Results;
 using FluentResults;
 using Alura.Adopet.Console.Servicos.Abstracoes;
+using Alura.Adopet.Console.Modelos;
 
 namespace Alura.Adopet.Console.Comandos
 {
@@ -10,9 +11,9 @@ namespace Alura.Adopet.Console.Comandos
        documentacao: "adopet show <ARQUIVO> comando que exibe no terminal o conteúdo do arquivo importado.")]
     public class Show:IComando
     {
-        private readonly ILeitorDeArquivo leitor;
+        private readonly ILeitorDeArquivos<Pet> leitor;
 
-        public Show(ILeitorDeArquivo leitor)
+        public Show(ILeitorDeArquivos<Pet> leitor)
         {
             this.leitor = leitor;
         }
@@ -25,7 +26,7 @@ namespace Alura.Adopet.Console.Comandos
             }
             catch (Exception exception)
             {
-               return Task.FromResult(Result.Fail(new Error("Importação falhou!").CausedBy(exception)));
+               return Task.FromResult(Result.Fail(new Error("Exibição do arquivo falhou!").CausedBy(exception)));
             }
         }
 

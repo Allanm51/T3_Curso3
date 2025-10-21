@@ -3,7 +3,7 @@ using Alura.Adopet.Console.Servicos.Abstracoes;
 
 namespace Alura.Adopet.Console.Servicos.Arquivos;
 
-public class LeitorDeArquivoCsv : ILeitorDeArquivo
+public abstract class LeitorDeArquivoCsv<T>: ILeitorDeArquivos<T>
 {
     private string caminhoDoArquivoASerLido;
     public LeitorDeArquivoCsv(string caminhoDoArquivoASerLido)
@@ -11,20 +11,25 @@ public class LeitorDeArquivoCsv : ILeitorDeArquivo
         this.caminhoDoArquivoASerLido = caminhoDoArquivoASerLido;
     }
 
-    public virtual IEnumerable<Pet> RealizaLeitura()
+    public virtual IEnumerable<T> RealizaLeitura()
     {
         if (string.IsNullOrEmpty(caminhoDoArquivoASerLido))
         {
             return null;
         }
-        List<Pet> listaDePet = new List<Pet>();
+        List<T> lista = new List<T>();
         using StreamReader sr = new StreamReader(caminhoDoArquivoASerLido);
         while (!sr.EndOfStream)
         {
             string? linha = sr.ReadLine();
             if (linha is not null)
-                listaDePet.Add(linha.ConverteDoTexto());
+            {
+                var objeto = CriarDaLinhaCsv(linha);
+                lista.Add(objeto);
+            }
         }
-        return listaDePet;
+        return lista;
     }
+
+    public abstract T CriarDaLinhaCsv(string linha);
 }

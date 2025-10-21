@@ -10,8 +10,11 @@ public class LeitorDeArquivoCsvTest : IDisposable
     {
         //Setup
         string linha = "456b24f4-19e2-4423-845d-4a80e8854a41;Lima Limão;1";
-        File.WriteAllText("lista.csv", linha);
-        caminhoArquivo = Path.GetFullPath("lista.csv");
+
+        string nomeRandomico = $"{Guid.NewGuid()}.csv";
+
+        File.WriteAllText(nomeRandomico, linha);
+        caminhoArquivo = Path.GetFullPath(nomeRandomico);
     }
 
     [Fact]
@@ -19,7 +22,7 @@ public class LeitorDeArquivoCsvTest : IDisposable
     {
         //Arrange            
         //Act
-        var listaDePets = new LeitorDeArquivoCsv(caminhoArquivo).RealizaLeitura()!;
+        var listaDePets = new PetsDoCsv(caminhoArquivo).RealizaLeitura()!;
         //Assert
         Assert.NotNull(listaDePets);
         Assert.Single(listaDePets);
@@ -31,7 +34,7 @@ public class LeitorDeArquivoCsvTest : IDisposable
     {
         //Arrange            
         //Act
-        var listaDePets = new LeitorDeArquivoCsv("").RealizaLeitura();
+        var listaDePets = new PetsDoCsv("").RealizaLeitura();
         //Assert
         Assert.Null(listaDePets);
     }
@@ -41,7 +44,7 @@ public class LeitorDeArquivoCsvTest : IDisposable
     {
         //Arrange            
         //Act
-        var listaDePets = new LeitorDeArquivoCsv(null).RealizaLeitura();
+        var listaDePets = new PetsDoCsv(null).RealizaLeitura();
         //Assert
         Assert.Null(listaDePets);
     }
